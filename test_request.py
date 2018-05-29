@@ -57,6 +57,7 @@ def get_tag(tag,params):
 	return get_posts_from_tag_info(get_tag_posts(tag),params)
 
 def get_all_tags(tags, params):
+	downloaded_posts = []
 	result = []
 	for tag in tags:
 		for post in get_tag(tag, params):
@@ -64,7 +65,10 @@ def get_all_tags(tags, params):
 				continue	
 			if post.get('is_video') == True:
 				continue	
+			if post.get("id") in downloaded_posts:
+				continue
 			result.append(post)
+			downloaded_posts.append(post.get("id"))
 	return result
 
 def is_24_hour_delta(taken_at_timestamp):

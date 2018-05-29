@@ -13,9 +13,13 @@ import mysql.connector
 #
 #
 def get_posts_ids(db_connect, db_cursor):
+	result = []
 	querry = 'select id_instagram from posts'
 	db_cursor.execute(querry)
-	return db_cursor.fetchall()
+	db_result = db_cursor.fetchall()
+	for db_res in db_result:
+		result.append(db_res[0])
+	return result
 
 
 #cursor.execute(req)
@@ -25,7 +29,8 @@ def get_posts_ids(db_connect, db_cursor):
 #cursor.close()
 #db.close()
 
-def insert_post(db_cursor, db_connect, post):
+def insert_post(db_connect, db_cursor, post):
+	print(post.get("shortcode"))		
 	querry = ("insert into posts(" + 
 					"taken_at_timestamp, " +
 					"shortcode, " +
@@ -33,16 +38,14 @@ def insert_post(db_cursor, db_connect, post):
 					"id_instagram, " + 
 					"display_url, " + 
 					"category, " +
-					"picture, " +
-					"username) values (" +
-					post.get("taken_at_timestamp") + ", " +
-					post.get("shortcode") + ", " +
-					post.get("thumbnail_resources") + ", " +
-					post.get("id") + ", " +
-					post.get("display_url") + ", " +
-					post.get("category") + ", " +
-					post.get("picture") + ", " +
-					post.get("username") + ");")
+					"username) values ('" +
+					str(post.get("taken_at_timestamp")) + "', '" +
+					str(post.get("shortcode")) + "', '" +
+					str(post.get("thumbnail_resources")) + "', " +
+					str(post.get("id")) + ", '" +
+					str(post.get("display_url")) + "', '" +
+					str(post.get("category")) + "', '" + 
+					str(post.get("username")) + "')")
 	db_cursor.execute(querry)
 	db_connect.commit()
 	

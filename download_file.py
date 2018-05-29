@@ -35,10 +35,13 @@ def save_image(arr, picture_name):
 	img.save(picture_name)
 	return True
 
-def take_string(download_url, color, frame_pix):
+def take_string(download_url, color, frame_pix, id_instagram):
 	result = download_file(download_url)
 	result = make_np_from_picture(result)
 	result = make_ramka(result, color, frame_pix)
-	return result.tostring()
+	file_to_save = open("pic/" + str(id_instagram) + ".jpg", "w")
+	save_image(result, file_to_save)
+	file_to_save.close()
+	return True
 
 #print(take_string('https://scontent-arn2-1.cdninstagram.com/vp/4045ab9664ec534653255202bbd5d91f/5BA78AE8/t51.2885-15/s150x150/e35/32725494_168860993794566_5442663590639173632_n.jpg', 'green', 5))
